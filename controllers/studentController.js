@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 const Student = require('../models/student.model')
 
-// 1. Create Student (POST)
+// create student
 const createStudent = async (req, res) => {
     try {
         const { name, email, phone, age, isActive, enrolledCourses } = req.body
@@ -20,7 +20,6 @@ const createStudent = async (req, res) => {
             })
         }
 
-        // Rule: Email duplicate check
         const existingStudent = await Student.findOne({ email })
         if (existingStudent) {
             return res.status(400).json({
@@ -55,7 +54,7 @@ const createStudent = async (req, res) => {
     }
 }
 
-// 2. Get All Students (GET)
+// all student
 const getAllStudents = async (req, res) => {
     try {
         const students = await Student.find().populate('enrolledCourses')
@@ -74,7 +73,7 @@ const getAllStudents = async (req, res) => {
     }
 }
 
-// 3. Get Single Student by ID (GET /:id)
+// single user
 const getStudentById = async (req, res) => {
     try {
         const { id } = req.params
@@ -107,7 +106,7 @@ const getStudentById = async (req, res) => {
     }
 }
 
-// 4. Update Student (PATCH /:id)
+// update student
 const updateStudent = async (req, res) => {
     try {
         const { id } = req.params

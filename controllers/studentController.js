@@ -1,10 +1,9 @@
-const mongoose = require('mongoose')
-const Student = require('../models/student.model')
+const Student = require('../models/studentSchema')
 
 // create student
 const createStudent = async (req, res) => {
     try {
-        const { name, email, phone, age, isActive, enrolledCourses } = req.body
+        const { name, email, phone, age, enrolledCourses } = req.body
 
         if (!name || !email || !phone || !age) {
             return res.status(400).json({
@@ -33,7 +32,6 @@ const createStudent = async (req, res) => {
             email,
             phone,
             age,
-            isActive,
             enrolledCourses: enrolledCourses || []
         })
 

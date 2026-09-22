@@ -168,7 +168,7 @@ const updateStudent = async (req, res) => {
     }
 }
 
-// 5. Delete Student (DELETE /:id)
+// delete student
 const deleteStudent = async (req, res) => {
     try {
         const { id } = req.params
@@ -211,5 +211,4 @@ const deleteStudent = async (req, res) => {
     }
 }
 
-module.exports = { createStudent, getAllStudents, getStudentById, updateStudent, deleteStudent
-}
+module.exports = {createStudent, getAllStudents, getStudentById, updateStudent, deleteStudent}

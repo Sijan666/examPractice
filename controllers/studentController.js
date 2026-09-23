@@ -23,7 +23,7 @@ const createStudent = async (req, res) => {
         if (existingStudent) {
             return res.status(400).json({
                 success: false,
-                message: 'A student with this email already exists!'
+                message: 'A student with this email already exists'
             })
         }
 
@@ -133,7 +133,7 @@ const updateStudent = async (req, res) => {
             if (existingEmail) {
                 return res.status(400).json({
                     success: false,
-                    message: 'Email is already used by another student!'
+                    message: 'Email is already used by another student'
                 })
             }
             updateData.email = email
@@ -147,13 +147,13 @@ const updateStudent = async (req, res) => {
         if (!updatedStudent) {
             return res.status(404).json({
                 success: false,
-                message: 'Student not found!'
+                message: 'Student not found'
             })
         }
 
         res.status(200).json({
             success: true,
-            message: 'Student successfully updated!',
+            message: 'Student successfully updated',
             data: updatedStudent
         })
 
@@ -174,7 +174,7 @@ const deleteStudent = async (req, res) => {
         if (!mongoose.Types.ObjectId.isValid(id)) {
             return res.status(400).json({
                 success: false,
-                message: 'Invalid MongoDB ObjectId format!'
+                message: 'Invalid MongoDB ObjectId format'
             })
         }
 
@@ -182,14 +182,14 @@ const deleteStudent = async (req, res) => {
         if (!student) {
             return res.status(404).json({
                 success: false,
-                message: 'Student not found!'
+                message: 'Student not found'
             })
         }
 
         if (student.enrolledCourses && student.enrolledCourses.length > 0) {
             return res.status(400).json({
                 success: false,
-                message: 'Cannot delete student because they are enrolled in one or more courses!'
+                message: 'Cannot delete student because they are enrolled in one or more courses'
             })
         }
 
@@ -197,7 +197,7 @@ const deleteStudent = async (req, res) => {
 
         res.status(200).json({
             success: true,
-            message: 'Student successfully deleted!'
+            message: 'Student successfully deleted'
         })
 
     } catch (error) {

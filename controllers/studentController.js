@@ -28,20 +28,18 @@ const createStudent = async (req, res) => {
             })
         }
 
-        const newStudent = new Student({
+        const newStudent = await new Student({
             name,
             email,
             phone,
             age,
             enrolledCourses: enrolledCourses || []
-        })
-
-        const savedStudent = await newStudent.save()
+        }).save()
 
         res.status(201).json({
             success: true,
             message: 'Student successfully created',
-            data: savedStudent
+            data: newStudent
         })
 
     } catch (error) {

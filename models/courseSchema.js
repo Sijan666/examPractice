@@ -17,9 +17,6 @@ const courseSchema = new Schema({
         type: String,
         required: true,
     },
-    duration: {
-        type: Number,
-    },
     durationInMonths: {
         type: Number,
         required: true

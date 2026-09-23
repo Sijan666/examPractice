@@ -29,10 +29,10 @@ const createStudent = async (req, res) => {
         }
 
         const newStudent = await new Student({
-            name,
-            email,
-            phone,
-            age,
+            name : name ,
+            email :email,
+            phone : phone,
+            age : age,
             enrolledCourses: enrolledCourses || []
         }).save()
 

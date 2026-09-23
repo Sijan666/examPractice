@@ -138,10 +138,7 @@ const updateStudent = async (req, res) => {
             updateData.email = email
         }
 
-        const updatedStudent = await Student.findByIdAndUpdate(id, updateData, { 
-            new: true, 
-            runValidators: true 
-        }).populate('enrolledCourses')
+        const updatedStudent = await Student.findByIdAndUpdate(id, updateData, { new: true }).populate('enrolledCourses')
 
         if (!updatedStudent) {
             return res.status(404).json({

@@ -2,10 +2,10 @@ const express = require('express')
 const { createStudent, getAllStudents, getStudentById, updateStudent, deleteStudent } = require('../controllers/studentController')
 const router = express.Router()
 
-router.post('/students',createStudent)
-router.get('/students',getAllStudents)
-router.get('/students/:id',getStudentById)
-router.patch('/students/:id',updateStudent)
-router.delete('/students/:id',deleteStudent)
+router.post('/createstudent',createStudent)
+router.get('/allstudent',getAllStudents)
+router.get('/singlestudent/:id',getStudentById)
+router.patch('/updatestudent/:id',updateStudent)
+router.delete('/deletestudent/:id',deleteStudent)
 
 module.exports = router

@@ -54,7 +54,7 @@ const createStudent = async (req, res) => {
 // all student
 const getAllStudents = async (req, res) => {
     try {
-        const students = await Student.find().populate('enrolledCourses')
+        const students = await Student.find()
         
         res.status(200).json({
             success: true,
@@ -115,30 +115,14 @@ const updateStudent = async (req, res) => {
             })
         }
 
-        const { age, email, ...updateData } = req.body
-
-        if (age !== undefined) {
-            if (age < 18) {
-                return res.status(400).json({
-                    success: false,
-                    message: 'Age must be at least 18 years old.'
-                })
-            }
-            updateData.age = age
+        if (req.body.age !== undefined && req.body.age < 18) {
+            return res.status(400).json({ 
+                success: false, 
+                message: 'age must be at least 18' 
+            })
         }
 
-        if (email) {
-            const existingEmail = await Student.findOne({ email, _id: { $ne: id } })
-            if (existingEmail) {
-                return res.status(400).json({
-                    success: false,
-                    message: 'Email is already used by another student'
-                })
-            }
-            updateData.email = email
-        }
-
-        const updatedStudent = await Student.findByIdAndUpdate(id, updateData, { new: true }).populate('enrolledCourses')
+        const updatedStudent = await Student.findByIdAndUpdate(id, req.body, { new: true}).populate("enrolledCourses")
 
         if (!updatedStudent) {
             return res.status(404).json({

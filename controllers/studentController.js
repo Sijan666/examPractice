@@ -39,7 +39,7 @@ const createStudent = async (req, res) => {
 
         res.status(201).json({
             success: true,
-            message: 'Student successfully created!',
+            message: 'Student successfully created',
             data: savedStudent
         })
 

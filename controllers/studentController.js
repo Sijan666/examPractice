@@ -79,7 +79,7 @@ const getStudentById = async (req, res) => {
         if (!mongoose.Types.ObjectId.isValid(id)) {
             return res.status(400).json({
                 success: false,
-                message: 'Invalid MongoDB ObjectId format!'
+                message: 'Invalid MongoDB ObjectId format'
             })
         }
 

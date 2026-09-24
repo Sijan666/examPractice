@@ -1,5 +1,6 @@
 const mongoose = require('mongoose')
 const Student = require('../models/studentSchema')
+const Course = require('../models/courseSchema')
 
 // create student
 const createStudent = async (req, res) => {
@@ -149,7 +150,7 @@ const updateStudent = async (req, res) => {
 // delete student
 const deleteStudent = async (req, res) => {
     try {
-        const { id } = req.params
+        const { obj } = req.params
 
         if (!mongoose.Types.ObjectId.isValid(id)) {
             return res.status(400).json({
@@ -189,4 +190,66 @@ const deleteStudent = async (req, res) => {
     }
 }
 
-module.exports = {createStudent, getAllStudents, getStudentById, updateStudent, deleteStudent}
+
+// enroll student
+const enrollStudent = async (req, res) => {
+    try {
+        const { studentId, courseId } = req.params
+
+        if (!mongoose.Types.ObjectId.isValid(studentId) || !mongoose.Types.ObjectId.isValid(courseId)) {
+            return res.status(400).json({ 
+                success: false, 
+                message: 'invalid id' 
+            })
+        }
+
+        const student = await Student.findById(studentId)
+        if (!student) {
+            return res.status(404).json({ 
+                success: false, 
+                message: 'student not found' 
+            })
+        }
+
+        const course = await Course.findById(courseId)
+        if (!course) {
+            return res.status(404).json({ 
+                success: false, 
+                message: 'course not found' 
+            })
+        }
+
+        if (!course.isPublished) {
+            return res.status(400).json({ 
+                success: false, 
+                message: 'course is not published' 
+            })
+        }
+
+        // check duplicate enrollment
+        if (student.enrolledCourses.includes(courseId)) {
+            return res.status(400).json({ 
+                success: false, 
+                message: 'already enrolled' 
+            })
+        }
+
+        // add and save
+        student.enrolledCourses.push(courseId)
+        await student.save()
+
+        return res.status(200).json({
+            success: true,
+            message: 'enrolled successfully',
+            data: student
+        })
+
+    } catch (error) {
+        return res.status(500).json({ 
+            success: false, 
+            error: error.message 
+        })
+    }
+}
+
+module.exports = {createStudent, getAllStudents, getStudentById, updateStudent, deleteStudent , enrollStudent}

@@ -167,7 +167,7 @@ const deleteCourse = async (req,res) => {
         })
     }
 
-    const deleteCourse = await Course.findByIdAndDelete(id)
+    await Course.findByIdAndDelete(id)
     res.status(200).json({
         success : true,
         message : "course deleted"

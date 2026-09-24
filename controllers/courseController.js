@@ -87,4 +87,31 @@ const singlecourse = async (req,res) => {
     }
 }
 
-module.exports = { createCourse ,allcourse , singlecourse}
+
+const updateCourse = async (req,res) => {
+    const {id} = req.params
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+        return res.status(400).json({
+            success: false,
+            message: 'Invalid MongoDB ObjectId format'
+        })
+    }
+
+    const updateCourse = await Course.findByIdAndUpdate(id,req.body,{new:true})
+    if (!updateCourse) {
+        return res.status(400).json({
+            success: false,
+            message: 'Course not found'
+        })
+    }
+
+    return res.status(200).json({
+        success: true,
+        message: 'Update successful',
+        data : updateCourse
+     })
+
+}
+
+module.exports = { createCourse ,allcourse , singlecourse , updateCourse}

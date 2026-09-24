@@ -123,7 +123,7 @@ const updateStudent = async (req, res) => {
             })
         }
 
-        const updatedStudent = await Student.findByIdAndUpdate(id, req.body, { new: true}).populate("enrolledCourses")
+        const updatedStudent = await Student.findByIdAndUpdate(id, req.body, { new: true})
 
         if (!updatedStudent) {
             return res.status(404).json({
@@ -150,7 +150,7 @@ const updateStudent = async (req, res) => {
 // delete student
 const deleteStudent = async (req, res) => {
     try {
-        const { obj } = req.params
+        const { id } = req.params
 
         if (!mongoose.Types.ObjectId.isValid(id)) {
             return res.status(400).json({
@@ -167,10 +167,10 @@ const deleteStudent = async (req, res) => {
             })
         }
 
-        if (student.enrolledCourses && student.enrolledCourses.length > 0) {
+        if (student.enrolledCourses) {
             return res.status(400).json({
                 success: false,
-                message: 'Cannot delete student because they are enrolled in one or more courses'
+                message: 'Cannot delete student because they are enrolled in one course'
             })
         }
 
@@ -194,7 +194,7 @@ const deleteStudent = async (req, res) => {
 // enroll student
 const enrollStudent = async (req, res) => {
     try {
-        const { studentId, courseId } = req.params
+        const { id } = req.params
 
         if (!mongoose.Types.ObjectId.isValid(studentId) || !mongoose.Types.ObjectId.isValid(courseId)) {
             return res.status(400).json({ 

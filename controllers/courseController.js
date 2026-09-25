@@ -60,33 +60,58 @@ const createCourse = async (req, res) => {
     }
 }
 
+// all course
 const allcourse = async (req,res) => {
-    const allcourse = await Course.find({})
-    res.status(200).json({
-        success: true,
-        count: allcourse.length,
-        data: allcourse
-    })
-}
-
-const singlecourse = async (req,res) => {
-    const {id} = req.params
-
-    if (!mongoose.Types.ObjectId.isValid(id)) {
-        return res.status(400).json({
-            success: false,
-            message: 'Invalid MongoDB ObjectId format'
+    try {
+        const allcourse = await Course.find({})
+        res.status(200).json({
+            success: true,
+            count: allcourse.length,
+            data: allcourse
         })
-    }
-
-    const course = await Course.findById(id)
-    if (!course) {
-        return res.status(404).json({
-            success: false,
-            message: 'Course not found'
+    } catch (error) {
+        res.status(500).json({
+            success : false,
+            message : "Server error",
+            error : error.message
         })
     }
 }
+
+// single course
+const singlecourse = async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            return res.status(400).json({
+                success: false,
+                message: 'Invalid MongoDB ObjectId format'
+            });
+        }
+
+        const course = await Course.findById(id);
+        
+        if (!course) {
+            return res.status(404).json({
+                success: false,
+                message: 'Course not found'
+            });
+        }
+
+        return res.status(200).json({
+            success: true,
+            data: course
+        });
+
+    } catch (error) {
+        return res.status(500).json({
+            success: false,
+            message: 'Failed to fetch course',
+            error: error.message
+        });
+    }
+};
 
 
 // update course
@@ -158,6 +183,7 @@ const updateCourse = async (req, res) => {
 
 // delete course
 const deleteCourse = async (req,res) => {
+try {
     const {id} = req.params
 
     if (!mongoose.Types.ObjectId.isValid(id)) {
@@ -172,6 +198,13 @@ const deleteCourse = async (req,res) => {
         success : true,
         message : "course deleted"
     })
+} catch (error) {
+    return res.status(500).json({
+        success: false,
+        message: 'Failed to delete course',
+        error: error.message
+    })
+}
 }
 
 

@@ -194,7 +194,7 @@ const deleteStudent = async (req, res) => {
 // enroll student
 const enrollStudent = async (req, res) => {
     try {
-        const { id } = req.params
+        const { studentId , courseId } = req.params
 
         if (!mongoose.Types.ObjectId.isValid(studentId) || !mongoose.Types.ObjectId.isValid(courseId)) {
             return res.status(400).json({ 

@@ -232,11 +232,11 @@ const enrollcourse = async (req,res) => {
 
     student.enrolledCourses.push(courseId)
     await student.save()
-    res.status(200).json({
-        success: true,
-        message: 'enrolled successfully',
-        data: student
-    })
+    // res.status(200).json({
+    //     success: true,
+    //     message: 'enrolled successfully',
+    //     data: student
+    // })
 }
 
 

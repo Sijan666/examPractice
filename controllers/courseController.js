@@ -209,40 +209,38 @@ try {
 
 
 // all enrolled students for a course
-const getCourseStudents = async (req, res) => {
+const courseStudent = async (req,res) => {
     try {
-        const { id } = req.params
+        const {id} = req.params
 
         if (!mongoose.Types.ObjectId.isValid(id)) {
-            return res.status(400).json({ 
-                success: false, 
-                message: 'invalid id' 
+            return res.status(400).json({
+                success : false,
+                message : "invalid id"
             })
         }
 
         const course = await Course.findById(id)
         if (!course) {
-            return res.status(404).json({ 
-                success: false, 
-                message: 'course not found' 
+            return res.status(400).json({
+                success : false,
+                message : "course not found"
             })
         }
 
-        const students = await Student.find({ enrolledCourses: id })
-
-        return res.status(200).json({
-            success: true,
-            message: 'students fetched successfully',
-            count: students.length,
-            data: students
+        const students = await Student.find({enrolledCourses : id})
+        res.status(200).json({
+            success : true,
+            message : `Here are the students of ${course}`
+            count : students.length,
+            data : students
         })
-
     } catch (error) {
-        return res.status(500).json({ 
-            success: false, 
-            error: error.message 
-        })
+        return res.status(400).json({
+            success : false,
+            error : error.message
+        }) 
     }
 }
 
-module.exports = { createCourse ,allcourse , singlecourse , updateCourse ,deleteCourse,getCourseStudents}
+module.exports = { createCourse ,allcourse , singlecourse , updateCourse ,deleteCourse,courseStudent}

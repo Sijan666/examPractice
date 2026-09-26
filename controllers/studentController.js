@@ -190,66 +190,55 @@ const deleteStudent = async (req, res) => {
     }
 }
 
+const enrollcourse = async (req,res) => {
+    const {studentId , courseId} = req.params
 
-// enroll student
-const enrollStudent = async (req, res) => {
-    try {
-        const { studentId , courseId } = req.params
+    if (!mongoose.Types.ObjectId.isValid(studentId) || !mongoose.Types.ObjectId.isValid(courseId)) {
+        return res.status(400).json({ 
+            success : false, 
+            message : "invalid id" 
+        }) 
+    }
 
-        if (!mongoose.Types.ObjectId.isValid(studentId) || !mongoose.Types.ObjectId.isValid(courseId)) {
-            return res.status(400).json({ 
-                success: false, 
-                message: 'invalid id' 
-            })
-        }
+    const student = await Student.findById(studentId)
+    if (!student) {
+        return res.status(400).json({ 
+            success : false, 
+            message : "student not found" 
+        }) 
+    }
 
-        const student = await Student.findById(studentId)
-        if (!student) {
-            return res.status(404).json({ 
-                success: false, 
-                message: 'student not found' 
-            })
-        }
+    const course = await Student.findById(courseId)
+    if (!course) {
+        return res.status(400).json({ 
+            success : false, 
+            message : "course not found" 
+        }) 
+    }
 
-        const course = await Course.findById(courseId)
-        if (!course) {
-            return res.status(404).json({ 
-                success: false, 
-                message: 'course not found' 
-            })
-        }
+    if (!course.isPublished) {
+        return res.status(400).json({ 
+            success : false, 
+            message : "course is not published yet" 
+        }) 
+    }
 
-        if (!course.isPublished) {
-            return res.status(400).json({ 
-                success: false, 
-                message: 'course is not published' 
-            })
-        }
-
-        // check duplicate enrollment
-        if (student.enrolledCourses.includes(courseId)) {
-            return res.status(400).json({ 
-                success: false, 
-                message: 'already enrolled' 
-            })
-        }
-
-        // add and save
-        student.enrolledCourses.push(courseId)
-        await student.save()
-
-        return res.status(200).json({
-            success: true,
-            message: 'enrolled successfully',
-            data: student
-        })
-
-    } catch (error) {
-        return res.status(500).json({ 
+    if (student.enrolledCourses.includes(courseId)) {
+        return res.status(400).json({ 
             success: false, 
-            error: error.message 
+            message: 'already enrolled' 
         })
     }
+
+    student.enrolledCourses.push(courseId)
+    await student.save()
+    res.status(200).json({
+        success: true,
+        message: 'enrolled successfully',
+        data: student
+    })
 }
 
-module.exports = {createStudent, getAllStudents, getStudentById, updateStudent, deleteStudent , enrollStudent}
+
+
+module.exports = {createStudent, getAllStudents, getStudentById, updateStudent, deleteStudent , enrollcourse}

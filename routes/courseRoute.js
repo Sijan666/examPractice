@@ -7,6 +7,6 @@ router.get('/allcourse',allcourse)
 router.get('/singlecourse/:id',singlecourse)
 router.patch('/updatecourse/:id',updateCourse)
 router.delete('/deletecourse/:id',deleteCourse)
-// router.get('/:id/students', courseStudent)
+router.get('/:id/students', courseStudent)
 
 module.exports = router

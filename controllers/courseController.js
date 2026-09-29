@@ -208,7 +208,7 @@ try {
 }
 
 
-// all enrolled students for a course
+// enrolled students in a course
 const courseStudent = async (req,res) => {
     try {
         const {id} = req.params

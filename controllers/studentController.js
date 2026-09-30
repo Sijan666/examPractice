@@ -5,7 +5,7 @@ const Course = require('../models/courseSchema')
 // create student
 const createStudent = async (req, res) => {
     try {
-        // const { name, email, phone, age, enrolledCourses } = req.body
+        const { name, email, phone, age, enrolledCourses } = req.body
 
         if (!name || !email || !phone || !age) {
             return res.status(400).json({
